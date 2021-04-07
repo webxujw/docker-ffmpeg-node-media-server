@@ -3,22 +3,12 @@ FROM jrottenberg/ffmpeg:4.3-centos7
 WORKDIR /
 
 ENV TZ="Asia/Shanghai" HOME="/" VERSION=v14.16.0
-RUN yum -y install wget
-RUN wget https://nodejs.org/dist/${VERSION}/node-${VERSION}-linux-x64.tar.xz
+RUN curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
 
-RUN xz -d node-${VERSION}-linux-x64.tar.xz && tar -xf node-${VERSION}-linux-x64.tar 
+RUN yum install nodejs -y
 
-RUN mv node-${VERSION}-linux-x64 /node
-RUN rm -f node-${VERSION}-linux-x64.tar.xz
-RUN rm -f node-${VERSION}-linux-x64.tar
-
-
-RUN ln -s /node/bin/node /usr/local/bin/
-RUN ln -s /node/bin/npm /usr/local/bin/
-
-
-RUN npm install pm2 -g
-RUN npm install cnpm -g
+RUN npm install yarn -g
+RUN yarn global add pm2
 
 COPY entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
