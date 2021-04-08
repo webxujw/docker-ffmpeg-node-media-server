@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd  /serve
+cd  /app
 
-rm -rf node_modules/ && cnpm install && pm2-runtime pm2.json
+rm -rf node_modules/ && yarn && pm2-runtime pm2.json
